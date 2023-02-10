@@ -9,12 +9,15 @@
       <div class="form-outline p-4">
         <input type="email" id="form2Example1" class="form-control" v-model="this.user"/>
         <label class="form-label" for="form2Example1">Email address</label>
+        <div class="invalid-feedback validationMsg">Field is required.</div>
       </div>
     
       <!-- Password input -->
       <div class="form-outline mb-4 p-4">
         <input type="password" id="form2Example2" class="form-control" v-model="this.pass" />
         <label class="form-label" for="form2Example2">Password</label>
+        <div class="invalid-feedback validationMsg">Field is required.</div>
+
       </div>
     
       <!-- 2 column grid layout for inline styling -->
@@ -59,6 +62,26 @@
           }
         },
         methods: {
+          handleSubmit(){
+          var input = document.getElementById('form2Example1')
+          var input2 = document.getElementById('form2Example2')
+          if(input.value.trim().length === 0){
+              input.classList.remove('is-valid')
+              input.classList.add('is-invalid')
+          }
+          else{
+            input.classList.remove('is-invalid')
+              input.classList.add('is-valid')
+          }
+          if(input2.value.trim().length == 0){
+            input2.classList.remove('is-valid')
+            input2.classList.add('is-invalid')
+          }
+          else{
+            input2.classList.remove('is-invalid')
+            input2.classList.add('is-valid')
+          }
+          },
           goRegister(){
             this.$router.push('/register')
           }

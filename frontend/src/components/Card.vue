@@ -46,15 +46,18 @@
                     <div class="col-md-6">
                         <h3>All Contacts</h3>
                     </div>
-                    <div class="col-md-6">{/**do post request here for contact */}
+                    <div class="col-md-6">
+                        <!-- {/**do post request here for contact */} -->
                          <button type="button" class="btn btn-green btn-raised btn-add-new-contact"><span class="icon-plus" data-toggle="modal" data-target="#modal-pull-right-add"> Add New Contact</span></button>
                     </div>
                 </div>
                 
                 <div class="list-group contact-group">
-                    <ListComponent/> {/**get request with map */}
+                    <ListComponent/> 
+                    <!-- {/**get request with map */} -->
                 </div>
-                <div class="pull-right">{/**do pagination calculation from the get request length */}
+                <div class="pull-right">
+                    <!-- {/**do pagination calculation from the get request length */} -->
                     <ul class="pagination pagination-split pagination-sm pagination-contact">
                         <li class="disabled"><a href="#"><i class="fa fa-angle-left"></i></a></li>
                         <li class="active"><a href="#">1</a></li>
@@ -81,7 +84,8 @@
                         </div>
                         <div class="row">  
                             <div class="col-md-12">
-                                <div class="contact-add-content">{/**post request here */}
+                                <div class="contact-add-content">
+                                    <!-- {/**post request here */} -->
                                     <form class="form-horizontal tabular-form margin-top-10">
                                         <div class="form-group">
                                             <label for="name" class="col-sm-2 control-label">Name</label>
@@ -133,7 +137,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<!-- <style scoped>
 body{
     margin-top:20px;
     background:#eee;
@@ -430,4 +434,4 @@ CONTACT MODAL VIEW
     }
 }
 
-</style>
+</style> -->
