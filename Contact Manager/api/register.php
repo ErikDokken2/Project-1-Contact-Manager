@@ -1,8 +1,8 @@
 <?php
+
 	$inData = getRequestInfo();
 	// Get the inputs from the input field
-	$firstName = $inData["firstName"];
-	$fullName = $inData["lastName"];
+	$email = $inData["email"];
 	$userName = $inData["userName"];
 	$password = $inData["password"];
 
@@ -30,9 +30,9 @@
 		else
 		{
 			// If the previous statement passed, then add the user to the database
-            $sqlInsert = "INSERT into users (fullName, userName, password) VALUES (?,?,?)";
+            $sqlInsert = "INSERT into users (email, userName, password) VALUES (?,?,?)";
 			$stmt = $conn->prepare($sqlInsert);
-			$stmt->bind_param("sss", $fullName, $userName, $password);
+			$stmt->bind_param("sss", $email, $userName, $password);
 			$stmt->execute();
 
 			returnWithError("");
@@ -58,4 +58,5 @@
 		$retValue = '{"error":"' . $err . '"}';
 		sendResultInfoAsJson( $retValue );
 	}
+
 ?>
