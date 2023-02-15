@@ -2,9 +2,11 @@ const urlBase = 'http://www.urimus3600.xyz/api';
 const extension = 'php';
 
 let error = "";
-let userName = "";
+let firstName = "";
+let lastName = "";
+let userId = "";
 let email = "";
-let loginPassword = "";
+let password = "";
 let repeatPassword = "";
 
 // When the enter button was pressed, jump to the doRegister function
@@ -19,15 +21,15 @@ function doRegister()
   	error = "";
 
   	// These variables must match the "id" part in the html
-  	userName = document.getElementById("userName").value;
+  	userId = document.getElementById("userId").value;
     email = document.getElementById("email").value;
-  	let password = document.getElementById("loginPassword").value;
+  	let password = document.getElementById("password").value;
   	let repeatPassword = document.getElementById("repeatPassword").value;
 
   	document.getElementById("registerResult").innerHTML="";
 
   	// Checks if there are any fields that are left empty
-  	if ((userName == "") || (password == "") || (email == "") || (repeatPassword == "")) {
+  	if ((userId == "") || (password == "") || (email == "") || (repeatPassword == "")) {
           document.getElementById("registerResult").innerHTML = "All fields required";
   		document.getElementById("registerResult").style.color = '#E02745';
           return;
@@ -40,9 +42,9 @@ function doRegister()
   		return;
   	}
 	
-	// Check if username length greater than 9 characters
-	if (userName.length < 10) {
-		document.getElementById("registerResult").innerHTML = "Username must be 10 characters or more.";
+	// Check if userId length greater than 9 characters
+	if (userId.length < 10) {
+		document.getElementById("registerResult").innerHTML = "User name must be 10 characters or more.";
 		document.getElementById("registerResult").style.color = '#E02745';
 		return;
 	}
@@ -57,7 +59,7 @@ function doRegister()
 	
 	
 
-  	let tmp = {userName:userName, password: password, email:email};
+  	let tmp = {firstName:firstName, lastName:lastName, userId:userId, email:email, password: password};
 
   	let jsonPayload = JSON.stringify(tmp);
 
@@ -88,9 +90,11 @@ function doRegister()
   				document.getElementById("registerResult").style.color = 'green';
 
   				// Clear all the fields
-  				document.getElementById("userName").value = "";
+				document.getElementById("firstName").value = "";
+				document.getElementById("lastName").value = "";
+  				document.getElementById("userId").value = "";
                 document.getElementById('Email').value = "";
-  				document.getElementById("loginPassword").value = "";
+  				document.getElementById("password").value = "";
   				document.getElementById("repeatPassword").value = "";
 
 				// Wait for 2 seconds to show the "Successfully registered" message then redirect to the login page

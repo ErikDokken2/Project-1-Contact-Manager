@@ -2,8 +2,10 @@
 
 	$inData = getRequestInfo();
 	// Get the inputs from the input field
+	$firstName = $inData["firstName"];
+	$lastName = $inData["lastName"];
+	$user_id = $inData["userName"];
 	$email = $inData["email"];
-	$userName = $inData["userName"];
 	$password = $inData["password"];
 
     // Establish a connection from the database
@@ -17,7 +19,7 @@
 	else
 	{
 		// Will run a query finding all the matching usernames
-		$stmt = $conn->prepare("SELECT userName FROM users WHERE userName = ?");
+		$stmt = $conn->prepare("SELECT userName FROM user_register WHERE userName = ?");
 		$stmt->bind_param("s", $userName);
 		$stmt->execute();
 		$result = $stmt->get_result();
@@ -30,9 +32,9 @@
 		else
 		{
 			// If the previous statement passed, then add the user to the database
-            $sqlInsert = "INSERT into users (email, userName, password) VALUES (?,?,?)";
+            $sqlInsert = "INSERT into user_register (firstname, lastName, email, user_id, password) VALUES (?,?,?,?,?)";
 			$stmt = $conn->prepare($sqlInsert);
-			$stmt->bind_param("sss", $email, $userName, $password);
+			$stmt->bind_param("sssss",$firstName, $lastName, $email, $userName, $password);
 			$stmt->execute();
 
 			returnWithError("");

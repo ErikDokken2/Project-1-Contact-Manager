@@ -1,9 +1,8 @@
 <?php
 	$inData = getRequestInfo();
 
-	$ID = 0;
-	$firstName = "";
-	$lastName = "";
+	$userName = 0;
+	$password = "";
 
 	$conn = new mysqli("localhost", "root", "26382523Pb", "contact_manager");
     
