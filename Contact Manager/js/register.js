@@ -2,10 +2,7 @@ const urlBase = 'http://www.urimus3600.xyz/api';
 const extension = 'php';
 
 let error = "";
-let firstName = "";
-let lastName = "";
 let userId = "";
-let email = "";
 let password = "";
 let repeatPassword = "";
 
@@ -22,14 +19,13 @@ function doRegister()
 
   	// These variables must match the "id" part in the html
   	userId = document.getElementById("userId").value;
-    email = document.getElementById("email").value;
-  	let password = document.getElementById("password").value;
+	let password = document.getElementById("password").value;
   	let repeatPassword = document.getElementById("repeatPassword").value;
 
   	document.getElementById("registerResult").innerHTML="";
 
   	// Checks if there are any fields that are left empty
-  	if ((userId == "") || (password == "") || (email == "") || (repeatPassword == "")) {
+  	if ((userId == "") || (password == "") || (repeatPassword == "")) {
           document.getElementById("registerResult").innerHTML = "All fields required";
   		document.getElementById("registerResult").style.color = '#E02745';
           return;
@@ -90,15 +86,12 @@ function doRegister()
   				document.getElementById("registerResult").style.color = 'green';
 
   				// Clear all the fields
-				document.getElementById("firstName").value = "";
-				document.getElementById("lastName").value = "";
-  				document.getElementById("userId").value = "";
-                document.getElementById('Email').value = "";
+				document.getElementById("userId").value = "";
   				document.getElementById("password").value = "";
   				document.getElementById("repeatPassword").value = "";
 
 				// Wait for 2 seconds to show the "Successfully registered" message then redirect to the login page
-				window.setTimeout(function (){window.location.href = "index.html";}, 1000);
+				window.setTimeout(function (){window.location.href = "index.html";}, 10000);
 
   			}
 
