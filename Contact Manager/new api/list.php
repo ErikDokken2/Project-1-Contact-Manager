@@ -27,6 +27,7 @@
         }else{
             
             $success = "\nUser(s) existence confirmed. \n";
+            
             echo($success);
         }
 
