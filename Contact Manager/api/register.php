@@ -1,64 +1,54 @@
 <?php
 
 	$inData = getRequestInfo();
-	// Get the inputs from the input field
-	$firstName = $inData["firstName"];
-	$lastName = $inData["lastName"];
-	$user_id = $inData["userName"];
-	$email = $inData["email"];
-	$password = $inData["password"];
 
-    // Establish a connection from the database
-	$conn = new mysqli("localhost", "root", "26382523Pb", "contact_manager");
+    $conn = new mysqli("localhost", "root", "26382523Pb", "contact_manager");
 
-    // Check for errors, if there are error, alert the user
-	if ($conn->connect_error)
-	{
-		returnWithError($conn->connect_error );
-	}
-	else
-	{
-		// Will run a query finding all the matching usernames
-		$stmt = $conn->prepare("SELECT userName FROM user_register WHERE userName = ?");
-		$stmt->bind_param("s", $userName);
-		$stmt->execute();
-		$result = $stmt->get_result();
+    // Error checking
+    if($conn->connect_error){
+        
+        echo("\nFailed to connect to mySQL server.");
 
-		// Check if the username already exist then alert the user
-		if (mysqli_num_rows($result) > 0)
-		{
-			returnWithError("Username already exists!");
-		}
-		else
-		{
-			// If the previous statement passed, then add the user to the database
-            $sqlInsert = "INSERT into user_register (firstname, lastName, email, user_id, password) VALUES (?,?,?,?,?)";
-			$stmt = $conn->prepare($sqlInsert);
-			$stmt->bind_param("sssss",$firstName, $lastName, $email, $userName, $password);
-			$stmt->execute();
+    }else{
+        
+        echo("\nSucceeded to connect to mySQL server.");
+    
+        // Prepare the stored procedure call
+        $stmt = $conn->prepare("CALL create_user(?, ?, ?, ?)");
 
-			returnWithError("");
-		}
+        // Bind the input variables to the placeholders
+        $param1 = $inData["userName"];
+        $param2 = $inData["password"];
+        $param3 = $inData["firstName"];
+        $param4 = $inData["lastName"];
 
-		$stmt->close();
-		$conn->close();
-	}
+        $stmt->bind_param("ssss", $param1, $param2, $param3, $param4);
 
-	function getRequestInfo()
-	{
-		return json_decode(file_get_contents('php://input'), true);
-	}
+        // Execute the prepared statement
+        $stmt->execute();
 
-	function sendResultInfoAsJson( $obj )
-	{
-		header('Content-type: application/json');
-		echo $obj;
+		// Error checking
+        if(!$stmt){
+            exit();
+        }else{
+            $success = "\nUser created.";
+        }
+
+        // Close the statement and the database connection
+        $stmt->close();
+        $conn->close();
+    }
+
+    // Conditional Error checking
+    if($error == NULL && $success != NULL){
+        $status = "No Errors, all Successes.";
+    }elseif($error == NULL && $success == NULL){
+        $status = "No Errors or Successes";
+    }elseif($error != NULL && $success != NULL){
+        $status = "Somehow Errors and Successes.";
+    }else{
+		$status = "Straight Errors.";
 	}
 
-	function returnWithError( $err )
-	{
-		$retValue = '{"error":"' . $err . '"}';
-		sendResultInfoAsJson( $retValue );
-	}
-
+    echo($status);
 ?>

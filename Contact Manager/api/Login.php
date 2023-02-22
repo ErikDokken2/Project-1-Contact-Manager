@@ -1,60 +1,51 @@
 <?php
+
 	$inData = getRequestInfo();
 
-	$userName = 0;
-	$password = "";
+    $conn = new mysqli("localhost", "root", "26382523Pb", "contact_manager");
 
-	$conn = new mysqli("localhost", "root", "26382523Pb", "contact_manager");
+    // Error checking
+    if($conn->connect_error){
+        
+        echo("\nFailed to connect to mySQL server.");
+
+    }else{
+        
+        echo("\nSucceeded to connect to mySQL server.");
     
-    // Will show an error if unable to connect to the database
-	if( $conn->connect_error )
-	{
-		returnWithError( $conn->connect_error );
+        // Prepare the stored procedure call
+        $stmt = $conn->prepare("CALL log_on(?, ?)");
+
+        // Bind the input variables to the placeholders
+        $param1 = $inData["userName"];
+        $param2 = $inData["password"];
+
+        $stmt->bind_param("ss", $param1, $param2);
+
+        // Execute the prepared statement
+        $stmt->execute();
+
+		// Error checking
+        if(!$stmt){
+            exit();
+        }else{
+            $success = "\nUser logged on.";
+        }
+
+        // Close the statement and the database connection
+        $stmt->close();
+        $conn->close();
+    }
+
+    // Conditional Error checking
+    if($error == NULL && $success != NULL){
+        $status = "No Errors, all Successes.";
+    }elseif($error == NULL && $success == NULL){
+        $status = "No Errors or Successes";
+    }elseif($error != NULL && $success != NULL){
+        $status = "Somehow Errors and Successes.";
+    }else{
+		$status = "Straight Errors.";
 	}
-	else
-	{
-        // Get the user inputs from the input field
-		$stmt = $conn->prepare("SELECT ID, fullName FROM users WHERE userName = ? AND password = ?");
-		$stmt->bind_param("ss", $inData["userName"], $inData["password"]);
-		$stmt->execute();
-		$result = $stmt->get_result();
-
-        // Check if the user already exist in the database
-		if( $row = $result->fetch_assoc()  )
-		{
-			returnWithInfo( $row['firstName'], $row['lastName'], $row['ID'] );
-		}
-        // User not found
-		else
-		{
-			returnWithError("No Records Found");
-		}
-
-		$stmt->close();
-		$conn->close();
-	}
-
-	function getRequestInfo()
-	{
-		return json_decode(file_get_contents('php://input'), true);
-	}
-
-	function sendResultInfoAsJson( $obj )
-	{
-		header('Content-type: application/json');
-		echo $obj;
-	}
-
-	function returnWithError( $err )
-	{
-		$retValue = '{"ID":0,"firstName":"","lastName":"","error":"' . $err . '"}';
-		sendResultInfoAsJson( $retValue );
-	}
-
-	function returnWithInfo( $firstName, $lastName, $ID )
-	{
-		$retValue = '{"ID":' . $ID . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '","error":""}';
-		sendResultInfoAsJson( $retValue );
-	}
-
+    echo($status);
 ?>

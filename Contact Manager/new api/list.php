@@ -15,7 +15,7 @@
         
         echo("\nSucceeded to connect to mySQL server. \n");
 
-        $users = 'CALL contact_manager.show_users()';
+        $users = 'CALL show_users()';
         $stmt = $conn->prepare($users);
         $stmt->execute();
         
@@ -36,8 +36,11 @@
 
         while ($row = $result->fetch_assoc()) {
             echo $row['Username'];
+            echo("\t");
             echo $row['Password'];
+            echo("\t");
             echo $row['Name'];
+            echo("\n");
         }
 
         $stmt->close();

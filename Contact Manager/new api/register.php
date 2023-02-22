@@ -4,16 +4,10 @@
     date_default_timezone_set('US/Eastern');
     $time = date('Y-m-d H:i:s');
     echo($time);
-    
-    $inData = getRequestInfo();
-    
-    $user_id = $inData["userName"];
-	$password = $inData["password"];
-    $fullName = "";
-	$email = "";
 
-    $conn = new mysqli("localhost", "root", "26382523Pb", "contact_manager");
+    $conn = new mysqli("localhost", "root", "26382523Pb", "COP4331");
 
+    // Error checking
     if($conn->connect_error){
         
         echo("\nFailed to connect to mySQL server. \n");
@@ -21,12 +15,19 @@
     }else{
         
         echo("\nSucceeded to connect to mySQL server. \n");
+    
+        // Prepare the stored procedure call
+        $stmt = $conn->prepare("CALL create_user(?, ?, ?, ?)");
 
-        $stmt = $conn->prepare("CALL create_user(?,?,?,?)");
-        $stmt->bind_param(1, $user_id); 
-        $stmt->bind_param(2, $password);
-        $stmt->bind_param(3, $fullName);
-        $stmt->bind_param(4, $email);
+        // Bind the input variables to the placeholders
+        $param1 = "dakota2024";# Username
+        $param2 = "passwordpassword";# Password
+        $param3 = "dakota1";# First Name
+        $param4 = "minnema1";#Last Name
+
+        $stmt->bind_param("ssss", $param1, $param2, $param3, $param4);
+
+        // Execute the prepared statement
         $stmt->execute();
 
         if(!$stmt){
@@ -36,14 +37,17 @@
 
         }else{
             
-            $success = "\nUser(s) existence confirmed. \n";
+            $success = "\nUser created. \n";
+            
             echo($success);
         }
 
+        // Close the statement and the database connection
         $stmt->close();
         $conn->close();
     }
 
+    // Error checking
     if($error == NULL && $success != NULL){
 
         $status = "\nEverything went right. \n";
