@@ -15,9 +15,10 @@
         
         echo("\nSucceeded to connect to mySQL server. \n");
 
-        $users = 'CALL show_users()';
+        $users = 'CALL contact_manager.show_users()';
         $stmt = $conn->prepare($users);
         $stmt->execute();
+        
 
         if(!$stmt){
             
@@ -29,6 +30,14 @@
             $success = "\nUser(s) existence confirmed. \n";
             
             echo($success);
+        }
+        
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            echo $row['Username'];
+            echo $row['Password'];
+            echo $row['Name'];
         }
 
         $stmt->close();
