@@ -2,7 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Register from '../views/Register.vue'
 import Home from '../views/Home.vue'
-import Main from '../views/Main.vue'
+import Contactview from '../views/Contact.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -17,10 +18,12 @@ const routes = [
     component: Register
   },
   {
-    path: '/main',
-    name: 'Main',
-    component: Main
+    path: '/contact',
+    name: 'Contactview',
+    component: Contactview
   }
+
+  
 ]
 
 const router = new VueRouter({
