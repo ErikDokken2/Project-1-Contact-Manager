@@ -59,7 +59,7 @@
       methods: {
           goTo(){
               // this.$router.push('/'); 
-              this.$router.push('/login'); 
+              this.$router.push('/'); 
           },
           handleSubmit() {
     
