@@ -1,5 +1,7 @@
 <?php
 
+    $inData = getRequestInfo();
+
     $conn = new mysqli("localhost", "root", "26382523Pb", "contact_manager");
 
     // Error checking
@@ -11,8 +13,6 @@
         
         // Prepare the stored procedure call
         $stmt = $conn->prepare("CALL create_user(?, ?, ?, ?)");
-
-        $inData = json_decode(file_get_contents("php://input"));
 
         //  Bind the input variables to the placeholders
         //  These will be for actual use
@@ -44,4 +44,8 @@
         $conn->close();
     }
 
+    function getRequestInfo(){
+
+		return json_decode(file_get_contents('php://input'), true);
+	}
 ?>
