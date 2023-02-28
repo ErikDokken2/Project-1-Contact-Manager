@@ -1,37 +1,42 @@
 <?php
 
-	$inData = getRequestInfo();
-
     $conn = new mysqli("localhost", "root", "26382523Pb", "contact_manager");
 
     // Error checking
     if($conn->connect_error){
         
-        echo("\nFailed to connect to mySQL server.");
+        exit();
 
     }else{
         
-        echo("\nSucceeded to connect to mySQL server.");
-    
         // Prepare the stored procedure call
         $stmt = $conn->prepare("CALL create_user(?, ?, ?, ?)");
 
-        // Bind the input variables to the placeholders
-        $param1 = $inData["userName"];
-        $param2 = $inData["password"];
-        $param3 = $inData["firstName"];
-        $param4 = $inData["lastName"];
+        $inData = json_decode(file_get_contents("php://input"));
+
+        //  Bind the input variables to the placeholders
+        //  These will be for actual use
+        $param2 = $inData->firstName;
+        $param3 = $inData->lastName;
+        $param1 = $inData->userId;
+        $param4 = $inData->password;
+
+        //  Bind the input variables to the placeholders
+        //  These will be for temporary use
+        //  $param1 = "dakota2024";# Username
+        //  $param2 = "passwordpassword";# Password
+        //  $param3 = "dakota1";# First Name
+        //  $param4 = "minnema1";#Last Name
 
         $stmt->bind_param("ssss", $param1, $param2, $param3, $param4);
 
         // Execute the prepared statement
         $stmt->execute();
 
-		// Error checking
         if(!$stmt){
+            
             exit();
-        }else{
-            $success = "\nUser created.";
+
         }
 
         // Close the statement and the database connection
@@ -39,16 +44,4 @@
         $conn->close();
     }
 
-    // Conditional Error checking
-    if($error == NULL && $success != NULL){
-        $status = "No Errors, all Successes.";
-    }elseif($error == NULL && $success == NULL){
-        $status = "No Errors or Successes";
-    }elseif($error != NULL && $success != NULL){
-        $status = "Somehow Errors and Successes.";
-    }else{
-		$status = "Straight Errors.";
-	}
-
-    echo($status);
 ?>

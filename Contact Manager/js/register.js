@@ -3,6 +3,8 @@ const extension = 'php';
 
 let error = "";
 let userId = "";
+let firstName = "";
+let userId = "";
 let password = "";
 let repeatPassword = "";
 
