@@ -2,7 +2,7 @@
 
     $inData = getRequestInfo();
 
-    $conn = new mysqli("localhost", "root", "26382523Pb", "COP4331");
+    $conn = new mysqli("localhost", "root", "26382523Pb", "contact_manager");
 
     // Error checking
     if($conn->connect_error){
@@ -11,27 +11,27 @@
         exit();
 
     }else{
-    
+        
         // Prepare the stored procedure call
-        $stmt = $conn->prepare("CALL delete_user(?, ?)");
+        $stmt = $conn->prepare("CALL log_on(?, ?)");
 
         //  Bind the input variables to the placeholders
         //  These will be for actual use
-        $param1 = $inData["userId"];
-        $param2 = $inData["password"];
+        //  $param1 = $inData["userId"];
+        //  $param2 = $inData["password"];
 
 
         //  Bind the input variables to the placeholders
         //  These will be for testing use
-        //  $param1 = "ExampleUserName"; # Username
-        //  $param2 = "ExamplePassword"; # Password
+        $param1 = "ExampleUserName"; # Username
+        $param2 = "ExamplePassword"; # Password
 
         $stmt->bind_param("ss", $param1, $param2);
 
         // Execute the prepared statement
         $stmt->execute();
 
-        // Error checking
+        // If failed, exit
         if(!$stmt){
 
             // If failed, exit
@@ -43,5 +43,12 @@
         $stmt->close();
         $conn->close();
     }
+
+    echo($status);
+
+    function getRequestInfo(){
+        
+		return json_decode(file_get_contents('php://input'), true);
+	}
 
 ?>

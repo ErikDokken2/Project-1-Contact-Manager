@@ -7,6 +7,7 @@
     // Error checking
     if($conn->connect_error){
         
+        // If failed, exit
         exit();
 
     }else{
@@ -16,17 +17,17 @@
 
         //  Bind the input variables to the placeholders
         //  These will be for actual use
-        $param2 = $inData["firstName"];
-        $param3 = $inData["lastName"];
-        $param1 = $inData["userId"];
-        $param4 = $inData["password"];
+        //  $param2 = $inData["firstName"];
+        //  $param3 = $inData["lastName"];
+        //  $param1 = $inData["userId"];
+        //  $param4 = $inData["password"];
 
         //  Bind the input variables to the placeholders
         //  These will be for temporary use
-        //  $param1 = "dakota2024";# Username
-        //  $param2 = "passwordpassword";# Password
-        //  $param3 = "dakota1";# First Name
-        //  $param4 = "minnema1";#Last Name
+        $param1 = "ExampleUserName"; # Username
+        $param2 = "ExamplePassword"; # Password
+        $param3 = "Fname"; # First Name
+        $param4 = "Lname"; # Last Name
 
         $stmt->bind_param("ssss", $param1, $param2, $param3, $param4);
 
@@ -35,6 +36,7 @@
 
         if(!$stmt){
             
+            // If failed, exit
             exit();
 
         }
