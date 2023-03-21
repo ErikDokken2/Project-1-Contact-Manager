@@ -1,5 +1,5 @@
 // This urlBase must be changed to our domain, once our domain is working correctly
-const urlBase = 'http://www.professorcontacts.com/LAMPAPI';
+const urlBase = 'http://www.urimus3600.xyz/api';
 const extension = 'php';
 
 let userId = 0;

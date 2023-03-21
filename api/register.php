@@ -17,8 +17,9 @@
 	else
 	{
 		// Will run a query finding all the matching usernames
-		$stmt = $conn->prepare("SELECT userName FROM users WHERE userName = ?");
-		$stmt->bind_param("s", $userName);
+		$stmt = $conn->prepare("CALL user_exists(?)");
+		$param1 = $inData["userId"];
+		$stmt->bind_param("s", $param1);
 		$stmt->execute();
 		$result = $stmt->get_result();
 
@@ -30,9 +31,14 @@
 		else
 		{
 			// If the previous statement passed, then add the user to the database
-            $sqlInsert = "INSERT into users (firstName, lastName, userName, password) VALUES (?,?,?,?)";
-			$stmt = $conn->prepare($sqlInsert);
-			$stmt->bind_param("ssss", $firstName, $lastName, $userName, $password);
+            $stmt = $conn->prepare("CALL create_user(?, ?, ?, ?)");
+			
+			$param2 = $inData["firstName"];
+			$param3 = $inData["lastName"];
+			$param4 = $inData["password"];
+
+			$stmt->bind_param("ssss", $param1, $param2, $param3, $param4);
+
 			$stmt->execute();
 
 			returnWithError("");
