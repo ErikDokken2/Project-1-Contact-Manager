@@ -2,7 +2,7 @@
 session_start(); 
 include "db_conn.php";
 
-if (isset($_POST['uname']) && isset($_POST['password'])) {
+if (isset($_POST['user_id']) && isset($_POST['key_password'])) {
 	//validates data
 	function validate($data){
        $data = trim($data);
@@ -11,40 +11,42 @@ if (isset($_POST['uname']) && isset($_POST['password'])) {
 	   return $data;
 	}
 
-	$uname = validate($_POST['uname']);
-	$pass = validate($_POST['password']);
+	$user_id = validate($_POST['user_id']);
+	$pass = validate($_POST['key_password']);
 
 	//checks if login input is empty if so then it prints out an error
-	if (empty($uname)) {
+	if (empty($user_id)) {
 		header("Location: index.php?error= Username is required");
 	    exit();
 	}else if(empty($pass)){
         header("Location: index.php?error=Password is required");
 	    exit();
 	}else{
-		// hashing the password
+		// hashing the key_password
         $pass = md5($pass);
 
         
-		$sql = "SELECT * FROM users WHERE user_name='$uname' AND password='$pass'";
+		$sql = "SELECT * FROM user_register WHERE user_id='$user_id' AND key_password='$pass'";
+
+
 		//preforms a query on the database
 		$result = mysqli_query($conn, $sql);
+
 		//if the query finds the data it gets the follwing data
 		if (mysqli_num_rows($result) === 1) {
 			$row = mysqli_fetch_assoc($result);
-            if ($row['user_name'] === $uname && $row['password'] === $pass) {
-            	$_SESSION['user_name'] = $row['user_name'];
+            if ($row['user_id'] === $user_id && $row['key_password'] === $pass) {
+            	$_SESSION['user_id'] = $row['user_id'];
             	$_SESSION['firstname'] = $row['firstname'];
 				$_SESSION['lastname'] = $row['lastname'];
-            	$_SESSION['id'] = $row['id'];
             	header("Location: home.php");
 		        exit();
             }else{
-				header("Location: index.php?error=Incorect User name or password");
+				header("Location: index.php?error=Incorect User name or key_password");
 		        exit();
 			}
 		}else{
-			header("Location: index.php?error=Incorect User name or password");
+			header("Location: index.php?error=Incorect User name or key_password");
 	        exit();
 		}
 	}

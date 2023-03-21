@@ -16,41 +16,41 @@
           <?php } ?>
 
           <label>First Name</label>
-          <?php if (isset($_GET['firstname'])) { ?>
+          <?php if (isset($_GET['first_name'])) { ?>
                <input type="text" 
-                    name="firstname" 
+                    name="first_name" 
                     placeholder="firstname"
-                    value="<?php echo $_GET['firstname']; ?>"><br>
+                    value="<?php echo $_GET['first_name']; ?>"><br>
           <?php }else{ ?>
-               <input type="text" name="firstname" placeholder="First Name"><br>
+               <input type="text" name="first_name" placeholder="First Name"><br>
           <?php }?>
 
           <label>Last Name</label>
-          <?php if (isset($_GET['lastname'])) { ?>
+          <?php if (isset($_GET['last_name'])) { ?>
                <input type="text" 
-                    name="lastname" 
+                    name="last_name" 
                     placeholder="lastname"
-                    value="<?php echo $_GET['lastname']; ?>"><br>
+                    value="<?php echo $_GET['last_name']; ?>"><br>
           <?php }else{ ?>
-               <input type="text" name="lastname" placeholder="Last Name"><br>
+               <input type="text" name="last_name" placeholder="Last Name"><br>
           <?php }?>
 
           <label>User Name</label>
-          <?php if (isset($_GET['uname'])) { ?>
+          <?php if (isset($_GET['user_id'])) { ?>
                <input type="text" 
-                      name="uname" 
+                      name="user_id" 
                       placeholder="User Name"
-                      value="<?php echo $_GET['uname']; ?>"><br>
+                      value="<?php echo $_GET['user_id']; ?>"><br>
           <?php }else{ ?>
                <input type="text" 
-                      name="uname" 
-                      placeholder="User Name"><br>
+                      name="user_id" 
+                      placeholder="Username"><br>
           <?php }?>
 
 
      	<label>Password</label>
      	<input type="password" 
-                 name="password" 
+                 name="key_password" 
                  placeholder="Password"><br>
 
           <label>Re Password</label>
