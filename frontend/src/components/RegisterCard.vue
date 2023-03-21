@@ -7,17 +7,17 @@
         <form>
       <!-- Email input -->
       <div class="form-outline needs-validation p-4">
-        <input type="email" id="form2Example1" class="form-control" v-model="this.user"/>
+        <input type="email" id="form2Example1" class="form-control" v-model="user"/>
         <label class="form-label" for="form2Example1">Email address</label>
       </div>
     
       <!-- Password input -->
       <div class="form-outline needs-validation p-4">
-        <input type="password" id="form2Example2" class="form-control" v-model="this.pass" />
+        <input type="password" id="form2Example2" class="form-control" v-model="pass" />
         <label class="form-label" for="form2Example2">Password</label>
       </div>
       <div class="form-outline mb-4 needs-validation p-4">
-        <input type="password" id="form2Example2" class="form-control" v-model="this.confirm_pass" />
+        <input type="password" id="form2Example2" class="form-control" v-model="confirm_pass" />
         <label class="form-label" for="form2Example2">Confirm Password</label>
       </div>
     
@@ -33,7 +33,7 @@
         </div>
         </div>
       <!-- Submit button -->
-      <button type="button" class="btn btn-block mb-4" v-on:click="$router.go()">Sign in</button>
+      <button type="button" class="btn btn-block mb-4" v-on:click="submitForm()">Sign Up</button>
     
       <!-- Register buttons -->
       <div class="text-center">
@@ -45,15 +45,21 @@
     </template>
     <script>
     // import axios from 'axios'
+    import axios from 'axios'
     export default {
       name: 'RegisterCard',
       props: {
       },
       data (){
           return{
-              user : "",
-              pass : "",
-              confirm_pass : ""
+            user: "",
+            pass: "",
+            confirm_pass: "",
+            fistName : "James",
+            lastName: "latimer",
+            userID: "32489134eryu7289",
+            email: "jlat@gmail.com",
+            password: "dsafadsf"
           }
           },
       methods: {
@@ -67,13 +73,41 @@
             //       email: this.user,
             //       pass: this.pass
             //   }
-            // axios.post('http://localhost:3001/users', {first: this.new_first, last: this.new_pass})
+      
+            axios.post('.\\api\\register.php', {firstName: this.firstName, lastName: this.lastName, userId: this.userID, password: this.password})
     
-          }
-    
-          
+          },
+          async createUser(userId, firstName, lastName, password) {
+      try {
+        const response = await axios.post('urimus3600.xyz\\api\\register.php', {
+          userId,
+          firstName,
+          lastName,
+          password
+        });
+        return response.data;
+      } catch (error) {
+        console.error(error);
       }
+    },
+    async submitForm() {
+      
+      axios.post('urimus3600.xyz\\api\\register.php', {firstName: this.firstName, lastName: this.lastName, userId: this.userID, password: this.password})
+      // try {
+      //   const result = await this.createUser(
+      //     this.userId,
+      //     this.firstName,
+      //     this.lastName,
+      //     this.password
+      //   );
+      //   console.log(result);
+      // } catch (error) {
+      //   console.error(error);
+      // }
     }
+  
+}
+    }    
     </script>
     <style scoped>
     .d-inline-flex{
