@@ -5,35 +5,33 @@
             <h3>Register</h3>
         </div>
         <form>
+
+      
+     
+        
+        
       <!-- Email input -->
       <div class="form-outline needs-validation p-4">
-        <input type="email" id="form2Example1" class="form-control" v-model="this.user"/>
-        <label class="form-label" for="form2Example1">Email address</label>
+        <input type="email" id="form2Example1" class="form-control" v-model="user"/>
+        <label class="form-label" for="form2Example1">Username</label>
       </div>
     
-      <!-- Password input -->
+            <!-- Password input -->
       <div class="form-outline needs-validation p-4">
-        <input type="password" id="form2Example2" class="form-control" v-model="this.pass" />
+        <input type="password" id="form2Example2" class="form-control" v-model="pass" />
         <label class="form-label" for="form2Example2">Password</label>
+        <div class="invalid-feedback validationMsg"></div>
       </div>
       <div class="form-outline mb-4 needs-validation p-4">
-        <input type="password" id="form2Example2" class="form-control" v-model="this.confirm_pass" />
-        <label class="form-label" for="form2Example2">Confirm Password</label>
+        <input type="password" id="form2Example3" class="form-control" v-model="confirm_pass" />
+        <label class="form-label" for="form2Example3">Confirm Password</label>
+        <div class="invalid-feedback validationMsg"></div>
       </div>
     
     
-      <!-- 2 column grid layout for inline styling -->
-      <div class="row mb-4">
-        <div class="col d-flex justify-content-center">
-          <!-- Checkbox -->
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="form2Example31"/>
-            <label class="form-check-label" for="form2Example31"> Remember me </label>
-          </div>
-        </div>
-        </div>
+      
       <!-- Submit button -->
-      <button type="button" class="btn btn-block mb-4" v-on:click="$router.go()">Sign in</button>
+      <button type="button" class="btn btn-block mb-4" @click="handleSubmit">Sign up</button>
     
       <!-- Register buttons -->
       <div class="text-center">
@@ -44,7 +42,7 @@
     </div>
     </template>
     <script>
-    // import axios from 'axios'
+    import axios from 'axios'
     export default {
       name: 'RegisterCard',
       props: {
@@ -53,7 +51,9 @@
           return{
               user : "",
               pass : "",
-              confirm_pass : ""
+              confirm_pass : "",
+              firstName: '', 
+              lastName: '', 
           }
           },
       methods: {
@@ -61,19 +61,41 @@
               // this.$router.push('/'); 
               this.$router.push('/'); 
           },
-          handleSubmit() {
-    
-            //   const formData = {
-            //       email: this.user,
-            //       pass: this.pass
-            //   }
-            // axios.post('http://localhost:3001/users', {first: this.new_first, last: this.new_pass})
-    
-          }
-    
-          
+          async handleSubmit() {
+      if (this.pass !== this.confirm_pass) {
+        alert("Passwords don't match");
+        var input = document.getElementById('form2Example2');
+        var input2 = document.getElementById('form2Example3');
+        
+        input.classList.add('is-invalid');
+        input2.classList.add('is-invalid');
+        
+       
+        return;
       }
-    }
+
+      try {
+          const response = await axios.post('http://www.urimus3600.xyz/signup-check.php', {
+            userName: this.user,
+            password: this.pass,
+          });
+
+          if (response.data.error) {
+            alert(response.data.error);
+          } else {
+            this.$router.push('/');
+          }
+        } catch (error) {
+          console.error(error);
+          alert('Error registering user');
+        }
+        },
+        },
+        };
+
+          
+      
+    
     </script>
     <style scoped>
     .d-inline-flex{
