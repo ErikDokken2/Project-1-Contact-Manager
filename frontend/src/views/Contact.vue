@@ -1,24 +1,29 @@
 <template>
-    <div>
-        <!-- <div class="d-inline-flex p-2">
-          <search/>
-      </div> -->
-      <Contact/>
+    <div >
+      <Contact :users="users" :username="username"/>
     </div>
 </template>
   
 <script>
 // @ is an alias to /src
-
 import Contact from '@/components/Contact.vue';
-// import Search from '@/components/Search.vue';
-
-
-export default {
-  name: 'Contactview',
-  components: {
-    Contact,
-    // Search
+  
+  export default {
+    name: 'Contactview',
+    components: {
+    Contact
+},
+props: {
+    users: {
+      type: Array,
+      required: true
+    },
+    username: {
+      type: String,
+      required: true
+    }
   }
-}
+
+  }
+
 </script>
