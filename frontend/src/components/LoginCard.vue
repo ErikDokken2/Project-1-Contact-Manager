@@ -86,13 +86,13 @@
         // Handle successful retrieval of user data
         // Do something with the data, like displaying it on the page
         this.users = displayRes.data.results;
-        this.$router.push({
+        /*this.$router.push({
           name: 'Contactview',
           query: { 
             users: JSON.stringify(this.users),
             username: this.user
           }
-        })
+        })*/
       })
       .catch((error) => {
         // Handle error

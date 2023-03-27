@@ -1,6 +1,7 @@
 <template>
     <div >
-      <Contact :users="users" :username="username"/>
+      <!----<Contact :users="users" :username="username"/>-->
+      <Contact/>
     </div>
   </template>
   
@@ -15,7 +16,7 @@ import Contact from '@/components/Contact.vue';
     components: {
     Contact
 },
-props: {
+/*props: {
     users: {
       type: Array,
       required: true
@@ -24,7 +25,7 @@ props: {
       type: String,
       required: true
     }
-  }
+  }*/
 
   }
   </script>
