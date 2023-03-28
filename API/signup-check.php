@@ -39,9 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 
-	$result = add_user($username, $password);
-
-	echo json_encode(array('success' => $result));	
+	add_user($username, $password);	
 }
 
 else {
