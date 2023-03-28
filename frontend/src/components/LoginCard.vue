@@ -105,7 +105,7 @@
 
   //demo test for login api call
   try {
-  axios.post('/test/login.php', {
+  axios.post('https://www.urimus3600.xyz/test/login.php', {
     userName: this.user,
     password: this.pass
   }).then((response) => {

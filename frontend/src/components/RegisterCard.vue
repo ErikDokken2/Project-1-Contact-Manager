@@ -75,7 +75,7 @@
       }
 
       try {
-        const response = await axios.post('/test/signup-check.php', {
+        const response = await axios.post('https://www.urimus3600.xyz/test/signup-check.php', {
           username: this.user,
           password: this.pass,
         });
