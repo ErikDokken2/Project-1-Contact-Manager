@@ -18,8 +18,6 @@ function login_user($username, $password){
 
 		$stmt->bind_param("ss", $username, $password);
 
-		//$stmt->bind_param("ss", $inData["userName"], $inData["password"]);
-
 		$stmt->execute();
 
 		if(!$stmt){
