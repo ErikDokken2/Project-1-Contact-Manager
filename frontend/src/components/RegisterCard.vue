@@ -75,20 +75,35 @@
       }
 
       try {
-        const response = await axios.post('https://www.urimus3600.xyz/test/signup-check.php', {
-          username: this.user,
-          password: this.pass,
-        });
+    const response = await axios.post('https://www.urimus3600.xyz/test/signup-check.php', {
+      username: this.user,
+      password: this.pass,
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      });
 
-        if (response.data.error) {
-          alert(response.data.error);
-        } else {
-          this.$router.push('/');
-        }
-      } catch (error) {
-        console.error(error);
-        alert('Error registering user');
-      }
+    if (response.data.success) {
+      console.log('User created successfully');
+    } else {
+      console.log('Error creating user');
+    }
+  } catch (error) {
+    console.error('Error making axios call:', error);
+    if (error.response) {
+      // The request was made, and the server responded with a status code outside the 2xx range
+      console.error('Server response status:', error.response.status);
+      console.error('Server response data:', error.response.data);
+    } else if (error.request) {
+      // The request was made, but no response was received
+      console.error('No response received:', error.request);
+    } else {
+      // Something happened in setting up the request that triggered an error
+      console.error('Request setup error:', error.message);
+    }
+  }
+
         },
         },
         };
