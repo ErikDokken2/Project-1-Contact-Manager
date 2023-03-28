@@ -75,20 +75,20 @@
       }
 
       try {
-          const response = await axios.post('/urimus3600.xyz/test/signup-check.php', {
-            userName: this.user,
-            password: this.pass,
-          });
+        const response = await axios.post('/urimus3600.xyz/test/signup-check.php', {
+          username: this.user,
+          password: this.pass,
+        });
 
-          if (response.data.error) {
-            alert(response.data.error);
-          } else {
-            this.$router.push('/');
-          }
-        } catch (error) {
-          console.error(error);
-          alert('Error registering user');
+        if (response.data.error) {
+          alert(response.data.error);
+        } else {
+          this.$router.push('/');
         }
+      } catch (error) {
+        console.error(error);
+        alert('Error registering user');
+      }
         },
         },
         };
