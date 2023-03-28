@@ -69,7 +69,7 @@
     input2.classList.add('is-valid');
   }
 
-  
+  /*
   axios
   .post('http://www.urimus3600.xyz/signup.php', {
     userName: this.user,
@@ -101,7 +101,26 @@
   .catch((error) => {
     // Handle authentication error
     alert("Invalid username or password.");
-  });
+  });*/
+
+  //demo test for login api call
+  try {
+  axios.post('/test/login.php', {
+    userName: this.user,
+    password: this.pass
+  }).then((response) => {
+
+  console.log(response.data); // log the response to the console
+
+  if (response.data.success) {
+    alert('User logged in successfully');
+  } else {
+    alert('Failed to log in user');
+  }})
+} catch (error) {
+  console.error(error);
+  alert('Error logging in user');
+}
 
 },
           goRegister(){
