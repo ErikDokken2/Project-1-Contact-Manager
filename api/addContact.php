@@ -13,7 +13,7 @@
 	$userId = $inData["userId"];
     
     // Establish a database connection
-	$conn = new mysqli("localhost", "root", "26382523Pb", "contact_manager");
+	$conn = new mysqli("localhost", "root", "26382523Pb", "databaseTemp");
 	if ($conn->connect_error)
 	{
 		returnWithError($conn->connect_error);

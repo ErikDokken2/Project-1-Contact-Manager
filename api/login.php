@@ -5,7 +5,7 @@
 	$firstName = "";
 	$lastName = "";
 
-	$conn = new mysqli("localhost", "root", "26382523Pb", "contact_manager");
+	$conn = new mysqli("localhost", "root", "26382523Pb", "databaseTemp");
     
     // Will show an error if unable to connect to the database
 	if( $conn->connect_error )
