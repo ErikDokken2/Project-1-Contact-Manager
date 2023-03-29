@@ -1,16 +1,25 @@
+
+		
+
 <?php
 
-    $inData = getRequestInfo();
+	header('Access-Control-Allow-Origin: *');
+
+	header('Access-Control-Allow-Methods: GET, POST');
+
+	header("Access-Control-Allow-Headers: X-Requested-With");
+
+	$inData = getRequestInfo();
 	// Get the inputs from the input field
 	$firstName = $inData["firstName"];
 	$lastName = $inData["lastName"];
 	$userName = $inData["userName"];
 	$password = $inData["password"];
-    
-    // Establish a connection from the database
-	$conn = new mysqli("localhost", "root", "26382523Pb", "databaseTemp");
 
-    // Check for errors, if there are error, alert the user
+    // Establish a connection from the database
+	$conn = new mysqli("localhost", "root", "dakota2023minnema", "contactManager");
+    
+	// Check for errors, if there are error, alert the user
 	if ($conn->connect_error)
 	{
 		returnWithError($conn->connect_error );
@@ -41,6 +50,7 @@
 
 		$stmt->close();
 		$conn->close();
+
 	}
 
 	function getRequestInfo()
@@ -59,3 +69,4 @@
 		$retValue = '{"error":"' . $err . '"}';
 		sendResultInfoAsJson( $retValue );
 	}
+?>

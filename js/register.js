@@ -1,5 +1,5 @@
 // This urlBase must be changed to our domain, once our domain is working correctly
-const urlBase = 'https://www.urimus3600.xyz/api';
+const urlBase = 'https://www.dakotaminnema.com/api';
 const extension = 'php';
 
 let error = "";
@@ -56,9 +56,6 @@ function doRegister()
 		document.getElementById("registerResult").style.color = '#E02745';
 		return;
 	}
-	
-	
-	
 
 	hash = md5(password);
   	let tmp = {userName:userName, password: hash, firstName:firstName, lastName:lastName};
@@ -70,7 +67,9 @@ function doRegister()
   	let url = urlBase + '/register.' + extension;
 
   	let xhr = new XMLHttpRequest();
+
   	xhr.open("POST", url, true);
+
   	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
   	try
   	{
