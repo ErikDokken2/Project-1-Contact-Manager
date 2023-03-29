@@ -16,14 +16,13 @@
 
   
   
-  <button @click="showFavorites = !showFavorites">Favorites</button>
+  
   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add User</button>
   <div>
   
     <table class="table">
     <thead>
       <tr>
-        <th scope="col"></th>
         <th scope="col">First</th>
         <th scope="col">Last</th>
         <th scope="col">Email</th>
@@ -36,9 +35,8 @@
     <tbody>
       
 
-      <!-----favs------>
-      <tr v-for="(user, index) in (searchResults.length > 0 ? searchResults.slice(min * 10, maxInd * page) : filteredPeople.slice(min * 10, maxInd * page))" :key="index">
-        <i :class="['fas', 'fa-star', user.isFavorite ? 'favorite' : '']" @click="toggleFavorite(user.id)"></i>
+      
+      <tr v-for="(user, index) in (searchResults.length > 0 ? searchResults.slice(min * 10, maxInd * page) : users.slice(min * 10, maxInd * page))" :key="index">
         <td>{{user.first}}</td>
         <td>{{user.last}}</td>
         <td>{{user.email}}</td>
@@ -170,7 +168,7 @@
           </div>
           <div class="form-group">
             <label for="birthday">Birthday</label>
-            <input type="date" class="form-control" id="birthday" v-model="edit_email" />
+            <input type="date" class="form-control" id="birthday" v-model="edit_birthday" />
           </div>
         </div>
         <div class="modal-footer">
@@ -751,12 +749,7 @@ this.users = this.users.map(person => {
       }
     },
     computed: {
-  filteredPeople() {
-    if (this.showFavorites) {
-      return this.users.filter(person => person.isFavorite);
-    }
-    return this.users;
-  },
+  
   dismissAttribute() {
   return this.isUserAdded ? 'modal' : '';
 },
