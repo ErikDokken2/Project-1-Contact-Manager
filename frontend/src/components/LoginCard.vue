@@ -54,6 +54,8 @@
   if (input.value.trim().length === 0) {
     input.classList.remove('is-valid');
     input.classList.add('is-invalid');
+    alert("Enter a Username")
+    return;
      
   } else {
     input.classList.remove('is-invalid');
@@ -63,6 +65,8 @@
   if (input2.value.trim().length == 0) {
     input2.classList.remove('is-valid');
     input2.classList.add('is-invalid');
+    alert("Enter a Password")
+    return;
    
   } else {
     input2.classList.remove('is-invalid');

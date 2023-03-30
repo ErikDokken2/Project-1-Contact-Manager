@@ -8,9 +8,6 @@
   <div class="form-outline">
     <input type="search" id="form1" placeholder="Search" class="form-control" v-model="searchQuery" @input="searchContacts"/>
   </div>
-  <button type="button" class="btn btn-primary">
-    <i class="fas fa-search"></i>
-  </button>
 </div>
 </div>
 
@@ -19,7 +16,7 @@
   
   
  
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add User</button>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Contact</button>
   <div>
   
     <table class="table">
