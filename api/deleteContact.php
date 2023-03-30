@@ -1,4 +1,7 @@
 <?php
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 	$inData = getRequestInfo();
 
 	// Get the contact ID of the person the user wants to delete
@@ -6,7 +9,7 @@
 	$ID = $inData["ID"];
 
 	// Establish connection to the database
-	$conn = new mysqli("localhost", "root", "26382523Pb", "contact_manager");
+    $conn = new mysqli("localhost", "root", "26382523Pb", "databaseTemp");
 	if ($conn->connect_error)
 	{
 		returnWithError($conn->connect_error );

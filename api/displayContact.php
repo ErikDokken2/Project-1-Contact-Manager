@@ -1,4 +1,8 @@
-<?php
+<?php 
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+    
 	$inData = getRequestInfo();
 
 	// Get the data from frontend and store the inputs here
@@ -8,7 +12,8 @@
 	$searchCount = 0;
 	$searchResults = "";
 
-    // Connect to the database$conn = new mysqli("localhost", "root", "26382523Pb", "contact_manager");$conn = new mysqli("localhost", "User1", "COP4331", "Group26");
+    // Connect to the database
+    $conn = new mysqli("localhost", "root", "26382523Pb", "databaseTemp");
 	if ($conn->connect_error)
 	{
 		returnWithError($conn->connect_error );

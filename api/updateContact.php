@@ -1,7 +1,11 @@
 <?php
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 	$inData = getRequestInfo();
     // Get the data from frontend and store the inputs here
-    $fullName = $inData["fullName"];
+    $firstName = $inData["firstName"];
+    $lastName = $inData["lastName"];
     $emailAddress = $inData["email"];
     $phoneNumber = $inData["phoneNumber"];
     $streetAddress = $inData["streetAddress"];
@@ -12,7 +16,7 @@
     $contactId = $inData["ID"];
 
     // Establish a connection to the database
-	$conn = new mysqli("localhost", "root", "26382523Pb", "contact_manager");
+    $conn = new mysqli("localhost", "root", "26382523Pb", "databaseTemp");
 	if ($conn->connect_error)
 	{
 		returnWithError($conn->connect_error );
@@ -21,10 +25,9 @@
 	{
 		// Fetch the contact from the database then update it using the inputs from the user. 
         // The userId must match to the one that the user was trying to update
-        $query = "UPDATE contacts SET fullName=?, email=?, phoneNumber=?, streetAddress=?, city=?, state=?, zip=? WHERE userId=? AND ID=?";
+        $query = "UPDATE contacts SET firstName=?, lastName=?, email=?, phoneNumber=?, streetAddress=?, city=?, state=?, zip=? WHERE userId=? AND ID=?";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("sssssssii", $fullName, $emailAddress, $phoneNumber, 
-                                    $streetAddress, $city, $state, $zip, $userId, $contactId);
+        $stmt->bind_param("ssssssssii", $firstName, $lastName, $emailAddress, $phoneNumber, $streetAddress, $city, $state, $zip, $userId, $contactId);
         // Execute the command
         $stmt->execute();
 

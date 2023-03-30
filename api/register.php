@@ -1,15 +1,22 @@
 <?php
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+
+
+
+
 	$inData = getRequestInfo();
 	// Get the inputs from the input field
 	$firstName = $inData["firstName"];
-	$fullName = $inData["lastName"];
+	$lastName = $inData["lastName"];
 	$userName = $inData["userName"];
 	$password = $inData["password"];
 
     // Establish a connection from the database
-	$conn = new mysqli("localhost", "root", "26382523Pb", "contact_manager");
-
-    // Check for errors, if there are error, alert the user
+	$conn = new mysqli("localhost", "root", "dakota2023minnema", "contactManager");
+    
+	// Check for errors, if there are error, alert the user
 	if ($conn->connect_error)
 	{
 		returnWithError($conn->connect_error );
@@ -30,9 +37,9 @@
 		else
 		{
 			// If the previous statement passed, then add the user to the database
-            $sqlInsert = "INSERT into users (fullName, userName, password) VALUES (?,?,?)";
+            $sqlInsert = "INSERT into users (firstName, lastName, userName, password) VALUES (?,?,?,?)";
 			$stmt = $conn->prepare($sqlInsert);
-			$stmt->bind_param("sss", $fullName, $userName, $password);
+			$stmt->bind_param("ssss", $firstName, $lastName, $userName, $password);
 			$stmt->execute();
 
 			returnWithError("");
@@ -40,6 +47,7 @@
 
 		$stmt->close();
 		$conn->close();
+
 	}
 
 	function getRequestInfo()

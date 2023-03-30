@@ -1,11 +1,15 @@
 <?php
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+
 	$inData = getRequestInfo();
 
 	$ID = 0;
 	$firstName = "";
 	$lastName = "";
 
-	$conn = new mysqli("localhost", "root", "26382523Pb", "contact_manager");
+	$conn = new mysqli("localhost", "root", "26382523Pb", "databaseTemp");
     
     // Will show an error if unable to connect to the database
 	if( $conn->connect_error )
@@ -15,7 +19,7 @@
 	else
 	{
         // Get the user inputs from the input field
-		$stmt = $conn->prepare("SELECT ID, fullName FROM users WHERE userName = ? AND password = ?");
+		$stmt = $conn->prepare("SELECT ID, firstName, lastName FROM users WHERE userName = ? AND password = ?");
 		$stmt->bind_param("ss", $inData["userName"], $inData["password"]);
 		$stmt->execute();
 		$result = $stmt->get_result();

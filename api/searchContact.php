@@ -1,4 +1,8 @@
 <?php
+
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 	$inData = getRequestInfo();
 
 	// Get the data from frontend and store the inputs here
@@ -9,7 +13,7 @@
 	$searchResults = "";
 
     // Connect to the database
-	$conn = new mysqli("localhost", "root", "26382523Pb", "contact_manager");
+    $conn = new mysqli("localhost", "root", "26382523Pb", "databaseTemp");
 	if ($conn->connect_error)
 	{
 		returnWithError($conn->connect_error );
@@ -27,21 +31,21 @@
 			$search3 = "%" . $split[1] . "%";
 
 			// Find contact using their first name or last name (must match their userId - userId = ID from user)
-			$query = "SELECT fullName, email, phoneNumber, streetAddress, city, state, zip 
-			FROM contacts WHERE fullName LIKE ? AND userId = ?";
+			$query = "SELECT firstName, lastName, email, phoneNumber, streetAddress, city, state, zip 
+			FROM contacts WHERE (firstName LIKE ? OR firstName LIKE ? OR lastName LIKE ? OR lastName LIKE ?) AND userId = ?";
 			// Prepare the query
 			$stmt = $conn->prepare($query);
-			$stmt->bind_param("si", $search1, $inData["userId"]);
+			$stmt->bind_param("ssssi", $search1, $search2, $search1, $search3, $inData["userId"]);
 		}
 		// Only one word was in the search bar
 		else 
 		{
 			// Find contact using their first name or last name (must match their userId)
-			$query = "SELECT fullName, email, phoneNumber, streetAddress, city, state, zip 
-			FROM contacts WHERE (fullName LIKE ?) AND userId = ?";
+			$query = "SELECT firstName, lastName, email, phoneNumber, streetAddress, city, state, zip 
+			FROM contacts WHERE (firstName LIKE ? OR lastName LIKE ?) AND userId = ?";
 			// Prepare the query
 			$stmt = $conn->prepare($query);
-			$stmt->bind_param("si", $search1, $inData["userId"]);
+			$stmt->bind_param("ssi", $search1, $search1, $inData["userId"]);
 		}
 
 		// Run the query
