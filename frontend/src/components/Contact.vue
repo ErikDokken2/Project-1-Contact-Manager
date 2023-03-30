@@ -1,5 +1,7 @@
 <template>
   <div>
+
+    <button id="logout-btn" class="btn btn-secondary" @click="logout">Logout</button>
    
     <div class="d-flex justify-content-center">
 <div class="input-group text-center">
@@ -36,7 +38,7 @@
       
 
       <!-----favs------>
-      <tr v-for="(user, index) in (searchResults.length > 0 ? searchResults.slice(min * 10, maxInd * page) : users.slice(min * 10, maxInd * page))" :key="index">
+      <tr v-for="(user, index) in (searchResults.length > 0 ? searchResults.slice(min * 10, maxInd * page) : usersList.slice(min * 10, maxInd * page))" :key="index">
         <td>{{user.firstName}}</td>
         <td>{{user.lastName}}</td>
         <td>{{user.email}}</td>
@@ -225,7 +227,7 @@
   import 'bootstrap';
   import 'bootstrap/dist/css/bootstrap.min.css';
 
-  //import axios from 'axios'
+  import axios from 'axios'
   //const baseURL = 'http://localhost:3001/users'
   // <li v-for="item in tab_data" :key="item.id">
   //     <tab :id="item.id" :description="item.first" :last="item.last"></tab>
@@ -234,13 +236,15 @@
         props: {
       users: Array,
       username: String,
-      userId : String
+      userId : Number
     },
     components: {
       //modal
     },
     data () {
       return {
+
+        usersList: this.users,
 
         searchQuery: '',
         searchResults: [],
@@ -282,6 +286,9 @@
         }
       }
     },
+    created() {
+    console.log(this.usersList);
+  },
     /*async created () {
       try {
        // const res = await axios.get('http://localhost:3001/users')
@@ -292,16 +299,22 @@
       }
     },*/
     methods: {
+
+      logout() {
+      this.$router.push('/');
+    },
+
+      
       async searchContacts() {
 try {
-  /*const response = await axios.post('https://www.urimus3600.xyz/api/searchContact.php', {
+  const response = await axios.post('https://urimus3600.xyz/api/searchContact.php', {
     search: this.searchQuery,
     userId: this.userId// add the user ID here
   });
   this.searchResults = response.data.results;
   
   this.searchResults.forEach((searchResult) => {
-  this.users.forEach((user) => {
+  this.usersList.forEach((user) => {
     if (
       searchResult.firstName === user.firstName &&
       searchResult.lastName === user.lastName &&
@@ -315,7 +328,7 @@ try {
 });
 
   
-  */
+  
 } catch (error) {
   console.log(error);
 }
@@ -323,7 +336,7 @@ try {
       resetUserAdded() {
   this.isUserAdded = false;
 },
-      moveL(){
+moveL(){
         if(this.page != this.maxPage){
           console.log("yo")
           this.page = this.page+1;
@@ -390,13 +403,13 @@ try {
          
           
         if(!isError) {
-          for (let x = 0; x < this.users.length; x++) {
-            if (this.users[x].ID === id) {
-              this.users[x].firstName = this.edit_first
-              this.users[x].lastName = this.edit_last
-              this.users[x].phoneNumber = this.edit_phone_number
-              this.users[x].email = this.edit_email
-              this.users[x].streetAddress = this.edit_streetAddress
+          for (let x = 0; x < this.usersList.length; x++) {
+            if (this.usersList[x].ID === id) {
+              this.usersList[x].firstName = this.edit_first
+              this.usersList[x].lastName = this.edit_last
+              this.usersList[x].phoneNumber = this.edit_phone_number
+              this.usersList[x].email = this.edit_email
+              this.usersList[x].streetAddress = this.edit_streetAddress
               
             }
 
@@ -412,10 +425,10 @@ try {
             }
             }
           }
-            /*
+            
   
             try {
-      const response = await axios.post('https://www.urimus3600.xyz/api/updateContact.php', {
+      const response = await axios.post('https://urimus3600.xyz/api/updateContact.php', {
         firstName: this.edit_first,
         lastName: this.edit_last,
         phoneNumber: this.edit_phone_number,
@@ -428,10 +441,11 @@ try {
     } catch (e) {
       console.log('something broke')
       console.log(e)
-    }*/
+    }
             
           }
           document.getElementById('editClose').click();
+          this.$forceUpdate();
 
         }
       },
@@ -527,8 +541,8 @@ if (this.edit_first === '' || /^\s*$/.test(this.edit_first) || /^\s*$/.test(this
            
            
           
-           
-              /*const response = await axios.post('https://www.urimus3600.xyz/api/addContact.php', {
+           try{
+              const response = await axios.post('https://urimus3600.xyz/api/addContact.php', {
       firstName: this.new_first,
       lastName: this.new_last,
       phoneNumber: this.new_phone_number,
@@ -538,10 +552,10 @@ if (this.edit_first === '' || /^\s*$/.test(this.edit_first) || /^\s*$/.test(this
     })
     console.log(response.data);
 
-    const displayResponse = await axios.post('https://www.urimus3600.xyz/api/displayContact.php', {
+    const displayResponse = await axios.post('https://urimus3600.xyz/api/displayContact.php', {
     userId: this.userId, // you can set this to the user ID of the currently logged in user,
   })
-  this.users=displayResponse.data.results;
+  this.usersList=displayResponse.data.results;
 
   } catch (e) {
     console.log('something broke')
@@ -551,7 +565,7 @@ if (this.edit_first === '' || /^\s*$/.test(this.edit_first) || /^\s*$/.test(this
 
 
 
-            */
+            
 
         this.new_phone_number= ''
         this.new_first= ''
@@ -559,8 +573,9 @@ if (this.edit_first === '' || /^\s*$/.test(this.edit_first) || /^\s*$/.test(this
         this.new_email= ''
         this.new_streetAddress= ''
         this.isUserAdded = true;
-        console.log(this.users);
+        console.log(this.usersList);
         document.getElementById('closeModalBtn').click();
+        this.$forceUpdate();
 
         //get single contact so i can what the id of it is (nvm id starts at 1 )
 
@@ -624,13 +639,13 @@ this.users = this.users.map(person => {
         console.log(userid);
         try {
           
-          for (let x = 0; x < this.users.length; x++) {
-            if (this.users[x].ID === userid) {
+          for (let x = 0; x < this.usersList.length; x++) {
+            if (this.usersList[x].ID === userid) {
               //proper delete 
-              /*const response = await axios.post('https://www.urimus3600.xyz/api/deleteContact.php', {
+              await axios.post('https://urimus3600.xyz/api/deleteContact.php', {
               userId: this.userId,//the user
-              ID: this.users[x].ID//id of the contact 
-            });*/
+              ID: this.usersList[x].ID//id of the contact 
+            });
             }
           }
 
@@ -647,10 +662,10 @@ this.users = this.users.map(person => {
 
           
           
-          const i = this.users.findIndex(users => users.ID === userid);
+          const i = this.usersList.findIndex(usersList => usersList.ID === userid);
 
           if (i !== -1) {
-            this.users.splice(i, 1);
+            this.usersList.splice(i, 1);
             // the contact has been deleted from the local array
           } else {
             console.log("Contact not found");
@@ -661,35 +676,37 @@ this.users = this.users.map(person => {
         }
 
 
-
+        this.$forceUpdate();
 
         
         
       }
     },
     computed: {
+
+     
   
   dismissAttribute() {
   return this.isUserAdded ? 'modal' : '';
 },
 },
 mounted(){
-        if(this.users.length < 10){
+        if(this.usersList.length < 10){
           console.log("hi")
           this.min = 0;
-          this.maxInd = this.users.length;
+          this.maxInd = this.usersList.length;
           this.maxPage = 1;
         }
         //var mod = this.page*10
-        if(this.users.length > 10 && this.page < Math.floor(this.users.length / 10  + 1)){
+        if(this.usersList.length > 10 && this.page < Math.floor(this.usersList.length / 10  + 1)){
         console.log("yep")
-        this.maxPage = Math.floor(this.users.length / 10  + 1);
+        this.maxPage = Math.floor(this.usersList.length / 10  + 1);
         this.maxInd = 10
         //this.pageMax = Math.floor(this.users.length / 10  + 1);        
         //this.$router.push('/game/' + this.name)
         }
         else{
-          this.maxInd = Math.floor(this.users.length / 10  + 1);        
+          this.maxInd = Math.floor(this.usersList.length / 10  + 1);        
         }
       }
 
@@ -727,6 +744,14 @@ color: yellow;
 .search-bar-container {
 display: flex;
 justify-content: center;
+}
+
+button#logout-btn {
+  position: fixed;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  
 }
 
 .input-group {

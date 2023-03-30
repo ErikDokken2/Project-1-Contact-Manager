@@ -71,7 +71,7 @@
 
   
   axios
-  .post('https://www.urimus3600.xyz/api/login.php', {
+  .post('https://urimus3600.xyz/api/login.php', {
     userName: this.user,
     password: this.pass,
   })
@@ -79,7 +79,7 @@
     // Handle successful authentication
     // Call the display API to get all the user's data
     axios
-      .post('https://www.urimus3600.xyz/api/displayContact.php', {
+      .post('https://urimus3600.xyz/api/displayContact.php', {
         userId: response.data.ID, // Use the id property of the response object
       })
       .then((displayRes) => {

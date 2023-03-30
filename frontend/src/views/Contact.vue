@@ -1,34 +1,28 @@
 <template>
-    <div >
-      <Contact :users="users" :username="username" :userId="userId"/>
-    </div>
-  </template>
-  
-  <script>
-  // @ is an alias to /src
-  
-import Contact from '@/components/Contact.vue';
+  <div>
+    <Contact :users="users" :username="username" :userId="userId"/>
+  </div>
+</template>
 
-  
-  export default {
-    name: 'Contactview',
-    components: {
+<script>
+import Contact from '@/components/Contact.vue';
+export default {
+  name: 'Contactview',
+  components: {
     Contact
 },
-props: {
-    users: {
-      type: Array,
-      required: true
-    },
-    username: {
-      type: String,
-      required: true
-    },
-    userId: {
-      type: String,
-      required: true
+data() {
+    return {
+      users: [],
+      username: '',
+      userId: ''
     }
+  },
+  created() {
+    this.users = JSON.parse(this.$route.query.users);
+    this.username = this.$route.query.username;
+    this.userId = this.$route.query.userId;
+    console.log(this.$route.query.users);
   }
-
-  }
-  </script>
+};
+</script>
