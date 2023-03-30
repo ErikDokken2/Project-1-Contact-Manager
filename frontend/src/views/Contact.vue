@@ -1,6 +1,6 @@
 <template>
     <div >
-      <Contact :users="users" :username="username"/>
+      <Contact :users="users" :username="username" :userId="userId"/>
     </div>
   </template>
   
@@ -21,6 +21,10 @@ props: {
       required: true
     },
     username: {
+      type: String,
+      required: true
+    },
+    userId: {
       type: String,
       required: true
     }

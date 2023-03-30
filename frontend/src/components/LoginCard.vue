@@ -80,7 +80,7 @@
     // Call the display API to get all the user's data
     axios
       .post('https://www.urimus3600.xyz/api/displayContact.php', {
-        userId: response.data.id, // Use the id property of the response object
+        userId: response.data.ID, // Use the id property of the response object
       })
       .then((displayRes) => {
         // Handle successful retrieval of user data
@@ -90,7 +90,8 @@
           name: 'Contactview',
           query: { 
             users: JSON.stringify(this.users),
-            username: this.user
+            username: this.user,
+            userId: response.data.ID
           }
         })
       })

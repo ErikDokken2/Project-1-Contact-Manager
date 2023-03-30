@@ -233,7 +233,8 @@
     name: 'Contact',
         props: {
       users: Array,
-      username: String
+      username: String,
+      userId : String
     },
     components: {
       //modal
@@ -295,9 +296,26 @@
 try {
   /*const response = await axios.post('https://www.urimus3600.xyz/api/searchContact.php', {
     search: this.searchQuery,
-    userId: this.username// add the user ID here
+    userId: this.userId// add the user ID here
   });
-  this.searchResults = response.data.results;*/
+  this.searchResults = response.data.results;
+  
+  this.searchResults.forEach((searchResult) => {
+  this.users.forEach((user) => {
+    if (
+      searchResult.firstName === user.firstName &&
+      searchResult.lastName === user.lastName &&
+      searchResult.phoneNumber === user.phoneNumber &&
+      searchResult.email === user.email &&
+      searchResult.streetAddress === user.streetAddress
+    ) {
+      searchResult.ID=user.ID;
+    }
+  });
+});
+
+  
+  */
 } catch (error) {
   console.log(error);
 }
@@ -376,21 +394,34 @@ try {
             if (this.users[x].ID === id) {
               this.users[x].firstName = this.edit_first
               this.users[x].lastName = this.edit_last
-              this.users[x].email = this.edit_email
               this.users[x].phoneNumber = this.edit_phone_number
+              this.users[x].email = this.edit_email
               this.users[x].streetAddress = this.edit_streetAddress
               
             }
+
+            if(this.searchResults.length>0){
+              for (let x = 0; x < this.searchResults.length; x++) {
+            if (this.searchResults[x].ID === id) {
+              this.searchResults[x].firstName = this.edit_first
+              this.searchResults[x].lastName = this.edit_last
+              this.searchResults[x].phoneNumber = this.edit_phone_number
+              this.searchResults[x].email = this.edit_email
+              this.searchResults[x].streetAddress = this.edit_streetAddress
+              
+            }
+            }
+          }
             /*
   
             try {
       const response = await axios.post('https://www.urimus3600.xyz/api/updateContact.php', {
         firstName: this.edit_first,
         lastName: this.edit_last,
-        email: this.edit_email,
         phoneNumber: this.edit_phone_number,
+        email: this.edit_email,
         streetAddress:this.edit_streetAddress,
-        userId: this.username,
+        userId: this.userId,
         ID: id
       })
       console.log(response.data);
@@ -503,12 +534,12 @@ if (this.edit_first === '' || /^\s*$/.test(this.edit_first) || /^\s*$/.test(this
       phoneNumber: this.new_phone_number,
       email: this.new_email,
       streetAddress: this.new_streetAddress,
-      userId: this.username, // you can set this to the user ID of the currently logged in user,
+      userId: this.userId, // you can set this to the user ID of the currently logged in user,
     })
     console.log(response.data);
 
     const displayResponse = await axios.post('https://www.urimus3600.xyz/api/displayContact.php', {
-    userId: this.username, // you can set this to the user ID of the currently logged in user,
+    userId: this.userId, // you can set this to the user ID of the currently logged in user,
   })
   this.users=displayResponse.data.results;
 
@@ -597,18 +628,29 @@ this.users = this.users.map(person => {
             if (this.users[x].ID === userid) {
               //proper delete 
               /*const response = await axios.post('https://www.urimus3600.xyz/api/deleteContact.php', {
-              userId: this.username,//the user
+              userId: this.userId,//the user
               ID: this.users[x].ID//id of the contact 
             });*/
             }
           }
-          
-          
-          
-          const i = users.findIndex(users => users.ID === userid);
+
+          if(this.searchResults.length>0){
+          const i = this.searchResults.findIndex(searchResults => searchResults.ID === userid);
 
           if (i !== -1) {
-            users.splice(i, 1);
+            this.searchResults.splice(i, 1);
+            // the contact has been deleted from the local array
+          } else {
+            console.log("Contact not found");
+          }
+        }
+
+          
+          
+          const i = this.users.findIndex(users => users.ID === userid);
+
+          if (i !== -1) {
+            this.users.splice(i, 1);
             // the contact has been deleted from the local array
           } else {
             console.log("Contact not found");
