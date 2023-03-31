@@ -11,7 +11,7 @@
 </div>
 </div>
 
-  <div class="header"><h1>Users</h1></div>
+  <div class="header"><h1>Contacts</h1></div>
 
   
   
