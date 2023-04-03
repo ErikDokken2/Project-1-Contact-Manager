@@ -1,52 +1,61 @@
 <?php
+	$inData = getRequestInfo();
 
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+	$ID = 0;
+	$firstName = "";
+	$lastName = "";
 
-function login_user($username, $password){
-
-	$conn = new mysqli("localhost", "root", "26382523Pb", "contact_manager");
-
-	if($conn->connect_error){
-		echo("\nFailed to connect to mySQL server. \n");
+	$conn = new mysqli("localhost", "root", "26382523Pb", "databaseTemp");
+    
+    // Will show an error if unable to connect to the database
+	if( $conn->connect_error )
+	{
+		returnWithError( $conn->connect_error );
 	}
-
-	else{
-
-		$stmt = $conn->prepare("Call log_on(?, ?)");
-
-		$stmt->bind_param("ss", $username, $password);
-
+	else
+	{
+        // Get the user inputs from the input field
+		$stmt = $conn->prepare("SELECT ID, firstName, lastName FROM users WHERE userName = ? AND password = ?");
+		$stmt->bind_param("ss", $inData["userName"], $inData["password"]);
 		$stmt->execute();
+		$result = $stmt->get_result();
 
-		if(!$stmt){
-			echo("\nError executing query");
-			exit();
+        // Check if the user already exist in the database
+		if( $row = $result->fetch_assoc()  )
+		{
+			returnWithInfo( $row['firstName'], $row['lastName'], $row['ID'] );
 		}
-		else{
-			$success = "User logged in\n";
-			echo($success);
+        // User not found
+		else
+		{
+			returnWithError("No Records Found");
 		}
 
 		$stmt->close();
+		$conn->close();
 	}
 
-}
+	function getRequestInfo()
+	{
+		return json_decode(file_get_contents('php://input'), true);
+	}
 
+	function sendResultInfoAsJson( $obj )
+	{
+		header('Content-type: application/json');
+		echo $obj;
+	}
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	function returnWithError( $err )
+	{
+		$retValue = '{"ID":0,"firstName":"","lastName":"","error":"' . $err . '"}';
+		sendResultInfoAsJson( $retValue );
+	}
 
-	$username = $_POST['userName'];
-	$password = $_POST['password'];
-
-	$result = login_user($username, $password);
-
-	echo json_encode(array('success' => $result));	
-}
-
-else {
-	echo("\nError grabbing inputted data\n");
-}
+	function returnWithInfo( $firstName, $lastName, $ID )
+	{
+		$retValue = '{"ID":' . $ID . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '","error":""}';
+		sendResultInfoAsJson( $retValue );
+	}
 
 ?>
