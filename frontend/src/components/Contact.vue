@@ -35,7 +35,7 @@
       
 
       <!-----favs------>
-      <tr v-for="(user, index) in (searchResults.length > 0 ? searchResults.slice(min * 10, maxInd * page) : usersList.slice(min * 10, maxInd * page))" :key="index">
+      <tr v-for="(user, index) in (searchResults.length > 0 ? searchResults : usersList)" :key="index">
         <td>{{user.firstName}}</td>
         <td>{{user.lastName}}</td>
         <td>{{user.email}}</td>
@@ -213,9 +213,7 @@
      
   
   </div>
-  <button type="button" class="btn btn-primary ml-auto" @click="moveR()"> &lt; </button>
-  <h5>{{this.page}}</h5>
-  <button type="button" class="btn btn-primary ml-auto" @click="moveL()">></button>
+  
 </div>
   </template>
   
@@ -333,26 +331,21 @@ try {
       resetUserAdded() {
   this.isUserAdded = false;
 },
-moveL(){
-        if(this.page != this.maxPage){
-          console.log("yo")
-          this.page = this.page+1;
-          console.log(this.maxPage);
-          this.min = this.min + 1;
-          // this.$router.push('/contact/' + this.page)
-          // Math.floor(this.users.length / 10  + 1)
-        }
-      },
-      moveR(){
-        if(this.page != 1){
-          console.log("yo")
-          this.page = this.page-1;
-          console.log(this.maxPage);
-          this.min = this.min - 1;
-          // this.$router.push('/contact/' + this.page)
-          // Math.floor(this.users.length / 10  + 1)
-        }
-      },
+moveL() {
+  if (this.page != this.maxPage) {
+    this.page = this.page + 1
+    this.min = (this.page - 1) * 10
+    this.maxInd = this.page * 10
+  }
+},
+moveR() {
+  if (this.page > 1) {
+    this.page = this.page - 1
+    this.min = (this.page - 1) * 10
+    this.maxInd = this.page * 10
+    
+  }
+},
       async edit (id) {
         console.log(id);
         let isError = false;
@@ -561,6 +554,8 @@ if (this.edit_first === '' || /^\s*$/.test(this.edit_first) || /^\s*$/.test(this
   }
 
 
+  
+
       
   
             
@@ -704,7 +699,7 @@ mounted(){
         //this.$router.push('/game/' + this.name)
         }
         else{
-          this.maxInd = Math.floor(this.usersList.length / 10  + 1);        
+          this.maxInd = this.page * 10;        
         }
       }
 
