@@ -22,7 +22,7 @@ data() {
     this.users = JSON.parse(this.$route.query.users);
     this.username = this.$route.query.username;
     this.userId = this.$route.query.userId;
-    console.log(this.$route.query.users);
+    console.log(this.$route.query.userId);
   }
 };
 </script>

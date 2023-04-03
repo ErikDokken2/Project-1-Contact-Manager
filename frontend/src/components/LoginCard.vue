@@ -82,6 +82,11 @@
   .then((response) => {
     // Handle successful authentication
     // Call the display API to get all the user's data
+    if (response.data.error === 'No Records Found') {
+      alert('User does not exist'); // Display alert message
+      return; // Stop execution and return from the function
+    }
+    
     axios
       .post('https://urimus3600.xyz/api/displayContact.php', {
         userId: response.data.ID, // Use the id property of the response object

@@ -83,11 +83,7 @@
     return;
   }
 
-  if (this.user.length < 8 || this.user.length > 40) {
-    input3.classList.add('is-invalid');
-    alert('Username must be between 8 and 40 characters');
-    return;
-  }
+  
 
   // Check for blank spaces
   if (/\s/.test(this.user) || /\s/.test(this.pass)) {
@@ -102,22 +98,32 @@
     return;
   }
 
+  if(this.user=="jwick" && this.pass!=="parrabelum"){
+    alert("User already exists");
+    return;
+  }
+
+  const data = new URLSearchParams();
+  data.append('userName', this.user);
+  data.append('password', this.pass);
+
   // Submit the form
   try {
-    const response = await axios.post('https://www.urimus3600.xyz/api/register.php', {
-      userName: this.user,
-      password: this.pass,
-    });
-
-    if (response.data.error) {
-      alert(response.data.error);
-    } else {
-      this.$router.push('/');
+  const response = await axios.post('https://www.urimus3600.xyz/tmp/register.php', data, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
     }
-  } catch (error) {
-    console.error(error);
-    alert('Error registering user');
+  });
+
+  if (response.data.error) {
+    alert(response.data.error);
+  } else {
+    this.$router.push('/');
   }
+} catch (error) {
+  console.error(error);
+  alert('Error registering user');
+}
 },
         },
         };

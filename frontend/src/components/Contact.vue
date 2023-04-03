@@ -434,6 +434,7 @@ moveL(){
         userId: this.userId,
         ID: id
       })
+      console.log(this.userId);
       console.log(response.data);
     } catch (e) {
       console.log('something broke')
@@ -560,8 +561,8 @@ if (this.edit_first === '' || /^\s*$/.test(this.edit_first) || /^\s*$/.test(this
   }
 
 
-
-
+      
+  
             
 
         this.new_phone_number= ''
