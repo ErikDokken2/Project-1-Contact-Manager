@@ -1,64 +1,53 @@
 <?php
 
-    $inData = getRequestInfo();
-	// Get the inputs from the input field
-	$firstName = $inData["firstName"];
-	$lastName = $inData["lastName"];
-	$userName = $inData["userName"];
-	$password = $inData["password"];
-    
-    // Establish a connection from the database
-	$conn = new mysqli("localhost", "root", "26382523Pb", "databasetemp");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
+function add_user($username, $password){
+	$firstname = '';
+	$lastname = '';
 
-    // Check for errors, if there are error, alert the user
-	if ($conn->connect_error)
-	{
-		returnWithError($conn->connect_error );
+	$conn = new mysqli("localhost", "root", "26382523Pb", "contact_manager");
+
+	if($conn->connect_error){
+		echo("\nFailed to connect to mySQL server. \n");
 	}
-	else
-	{
-		// Will run a query finding all the matching usernames
-		$stmt = $conn->prepare("SELECT userName FROM users WHERE userName = ?");
-		$stmt->bind_param("s", $userName);
+
+	else{
+		$stmt = $conn->prepare("Call create_user(?, ?, ?, ?)");
+
+		$stmt->bind_param("ssss", $username, $password, $firstname, $lastname);
+
 		$stmt->execute();
-		$result = $stmt->get_result();
 
-
-		// Check if the username already exist then alert the user
-		if (mysqli_num_rows($result) > 0)
-		{
-			returnWithError("Username already exists!");
+		if(!$stmt){
+			echo("\nError executing query");
+			exit();
 		}
-		else
-		{
-			// If the previous statement passed, then add the user to the database
-            $sqlInsert = "INSERT into users (firstName, lastName, userName, password) VALUES (?,?,?,?)";
-			$stmt = $conn->prepare($sqlInsert);
-			$stmt->bind_param("ssss", $firstName, $lastName, $userName, $password);
-			$stmt->execute();
-
-
-			returnWithError("");
+		else{
+			$success = "User created\n";
+			echo($success);
 		}
 
 		$stmt->close();
-		$conn->close();
 	}
+}
 
-	function getRequestInfo()
-	{
-		return json_decode(file_get_contents('php://input'), true);
-	}
 
-	function sendResultInfoAsJson( $obj )
-	{
-		header('Content-type: application/json');
-		echo $obj;
-	}
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-	function returnWithError( $err )
-	{
-		$retValue = '{"error":"' . $err . '"}';
-		sendResultInfoAsJson( $retValue );
-	}
+
+	$username = $_POST['userName'];
+	$password = $_POST['password'];
+
+	add_user($username, $password);
+
+}
+
+else {
+	echo("\nError getting input\n");	
+}
+
+
+?>
